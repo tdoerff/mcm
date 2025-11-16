@@ -38,11 +38,12 @@ def test_array_to_mcm_output():
 
 def test_mcm_output_to_array():
 
-    data_out_array = np.linspace(1, 17, 17)
-    data_in_array = np.linspace(-1, -9, 9)
+    out_array = np.linspace(1, 17, 17)
+    in_array = np.linspace(-1, -9, 9)
 
-    mcm_out = MCMOutput(*data_out_array, *data_in_array)
+    mcm_out = MCMOutput(*out_array, *in_array)
 
-    data_out_array_ref = MCM.mcm_output_to_array(mcm_out)
+    data_out_array = MCM.mcm_output_to_array(mcm_out)
+    data_out_ref_array = np.array([*out_array, *in_array])
 
-    np.testing.assert_allclose(data_out_array, data_out_array_ref)
+    np.testing.assert_allclose(data_out_array, data_out_ref_array)
