@@ -12,5 +12,4 @@ dtm_lib = shared_library(
     dtm_files,
     dependencies: [netcdff_lib],
     install : true,
-    install_dir: install_dir
 )
