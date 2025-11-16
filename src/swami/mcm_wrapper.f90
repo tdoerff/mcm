@@ -1,6 +1,6 @@
 subroutine mcm_wrapper(day_of_year, local_time, altitude, latitude, longitude, f107, f107m, kps, data_um, data_dtm, res_arr)
 
-    use m_mcm, only: get_mcm, t_mcm_out
+    use m_mcm, only: get_mcm, init_mcm, t_mcm_out
 
     implicit none
 
