@@ -55,7 +55,8 @@ mod_f2py_source = custom_target(
 py.extension_module(mod_name,
   [source_dir / mod_name + '.f90', mod_f2py_source],
   incdir_f2py / 'fortranobject.c',
-  include_directories: inc_np,
+  link_with : dtm_lib,
+  include_directories : inc_np,
   dependencies : py_dep,
   install : true,
   subdir : 'swami'
