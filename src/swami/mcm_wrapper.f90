@@ -4,20 +4,18 @@ subroutine mcm_wrapper(day_of_year, local_time, altitude, latitude, longitude, f
 
     implicit none
 
-    real(8), intent(in) :: altitude
-    real(8), intent(in) :: day_of_year
-    real(8), intent(in) :: local_time
-    real(8), intent(in) :: latitude
-    real(8), intent(in) :: longitude
-    real(8), intent(in) :: f107
-    real(8), intent(in) :: f107m
-    real(8), intent(in) :: kps(2)
-    ! Path where to find the UM netCDF files in folders 2002, 2004, 2008-2009
-    character(len=4096), intent(in) :: data_um
-    ! Path where to find the "DTM_2020_F107_Kp.dat" file
-    character(len=4096), intent(in) :: data_dtm
+    real(8), intent(in) :: altitude     ! height in km
+    real(8), intent(in) :: day_of_year  ! in [0, 365]
+    real(8), intent(in) :: local_time   ! in [0, 24] hours
+    real(8), intent(in) :: latitude     ! in [-90, 90] degrees
+    real(8), intent(in) :: longitude    ! [0, 360] degrees
+    real(8), intent(in) :: f107         ! F10.7 index
+    real(8), intent(in) :: f107m        ! F10.7 index (average)
+    real(8), intent(in) :: kps(2)       ! Kp indexes, 3h delayed, and 24h mean
+    character(len=4096), intent(in) :: data_um ! Path where to find the UM netCDF files in folders 2002, 2004, 2008-2009
+    character(len=4096), intent(in) :: data_dtm ! Path where to find the "DTM_2020_F107_Kp.dat" file
 
-    real(8), dimension(17), intent(out) :: res_arr
+    real(8), dimension(17), intent(out) :: res_arr  ! output array
 
     type(t_mcm_out) :: res_mcm
 
