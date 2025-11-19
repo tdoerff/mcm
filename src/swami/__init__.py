@@ -70,7 +70,6 @@ class MCM:
 
     def __init__(
         self,
-        exec_swami: Path | str | None = None,
         path_to_data: Path | str | None = None,
     ):
         """Initialiser
@@ -80,8 +79,6 @@ class MCM:
             path_to_data (os.PathLike, optional): Path to the data. Defaults to the included package.
         """
 
-        if exec_swami is not None:
-            self.path_to_bin = Path(exec_swami)
         if path_to_data is not None:
             self.path_to_data = Path(path_to_data)
 
