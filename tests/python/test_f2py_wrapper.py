@@ -3,10 +3,10 @@ import numpy as np
 import os
 
 import swami
-from swami.mcm_wrapper import mcm_wrapper
+from swami.mcm_wrapper import mcm
 
 
-def test_instantiation():
+def test_instantiation_mcm():
 
     doy = 1.
     lt = 16.
@@ -20,7 +20,7 @@ def test_instantiation():
     data_um = os.path.dirname(swami.__file__) + "/data/um/"
     data_dtm = os.path.dirname(swami.__file__) + "/data/"
 
-    res = mcm_wrapper(
+    res = mcm(
         doy, lt, al, lat, lon, f107, f107a, kps, data_um, data_dtm)
 
     # Check if all values are returned
