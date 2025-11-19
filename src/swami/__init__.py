@@ -17,7 +17,7 @@ import os
 from pathlib import Path
 from typing import NamedTuple
 
-from swami.mcm_wrapper import mcm_wrapper
+from swami.mcm_wrapper import mcm
 
 __version__ = "swami-1.0.rc"
 
@@ -143,7 +143,7 @@ class MCM:
         data_um = str(os.path.join(self.path_to_data, "um"))
         data_um = data_um + "/" if data_um[-1] != "/" else data_um
 
-        out = mcm_wrapper(
+        out = mcm(
             day_of_year,
             local_time,
             altitude,
