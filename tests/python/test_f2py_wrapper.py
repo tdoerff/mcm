@@ -3,7 +3,7 @@ import numpy as np
 import os
 
 import swami
-from swami.mcm_wrapper import mcm
+from swami.mcm_wrapper import mcm, dtm
 
 
 def test_instantiation_mcm():
@@ -25,3 +25,22 @@ def test_instantiation_mcm():
 
     # Check if all values are returned
     assert np.all(np.isfinite(res))
+
+
+def test_instantiation_dtm():
+
+    doy = 1.
+    lt = 16.
+    al = 250.
+    lat = 60.
+    lon = 60.
+    f107 = 150.
+    f107a = 150.
+    kps = 6.
+
+    res = dtm(
+        doy, lt, al, lat, lon, (f107, 0.), (f107a, 0.), (kps, 0., 0., 0.))
+
+    # Check if all values are returned
+    assert np.all(np.isfinite(res))
+
