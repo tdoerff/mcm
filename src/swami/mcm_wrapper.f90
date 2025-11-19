@@ -50,4 +50,21 @@ subroutine mcm(day_of_year, local_time, altitude, latitude, longitude, f107, f10
     res_arr(16) = res_mcm%xwind_std
     res_arr(17) = res_mcm%ywind_std
 
-end subroutine mcm_wrapper
+end subroutine mcm
+
+
+subroutine dtm(doy, f, fbar, akp, alti, loct, lati, longi, temp, dens, d, wmm, tinf)
+
+    implicit none
+
+    real(8), intent(in) :: lati, alti, doy, loct, longi
+    real(8), dimension(2), intent(in) :: f, fbar
+    real(8), dimension(4), intent(in) :: akp
+
+    real, intent(out) :: d(6), wmm, tinf, temp, dens
+
+    call dtm3(real(doy), real(f), real(fbar), real(akp), &
+              real(alti), real(loct), real(lati), real(longi), &
+              temp, tinf, dens, d, wmm)
+
+end subroutine dtm
