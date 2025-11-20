@@ -53,18 +53,54 @@ subroutine mcm(day_of_year, local_time, altitude, latitude, longitude, f107, f10
 end subroutine mcm
 
 
-subroutine dtm(doy, f, fbar, akp, alti, loct, lati, longi, temp, dens, d, wmm, tinf)
+subroutine dtm(doy, loct, alti, lati, longi, f, fbar, akp, res_arr)
 
     implicit none
 
+    ! input
     real(8), intent(in) :: lati, alti, doy, loct, longi
     real(8), dimension(2), intent(in) :: f, fbar
     real(8), dimension(4), intent(in) :: akp
 
-    real, intent(out) :: d(6), wmm, tinf, temp, dens
+    ! output
+    real(8), dimension(10), intent(out) :: res_arr  ! output array
 
-    call dtm3(real(doy), real(f), real(fbar), real(akp), &
-              real(alti), real(loct), real(lati), real(longi), &
-              temp, tinf, dens, d, wmm)
+    ! return values of dtm3
+    real :: d(6), wmm, tinf, temp, dens
+
+    ! DTM uses coordinates in rad, hence the conversion factors.
+    real(8), parameter :: PI = acos(-1d0)
+    real(8), parameter :: DEG2RAD = PI/180d0
+    real(8), parameter :: HOUR2RAD = PI/12d0
+
+    call dtm3(                  &
+        real(doy),              &
+        real(f),                &
+        real(fbar),             &
+        real(akp),              &
+        real(alti),             &
+        real(loct) * HOUR2RAD,  &
+        real(lati) * DEG2RAD,   &
+        real(longi) * DEG2RAD,  &
+        temp,                   &
+        tinf,                   &
+        dens,                   &
+        d,                      &
+        wmm)
+
+    res_arr(1) = dens
+
+    res_arr(2) = temp
+
+    res_arr(3) = wmm
+
+    res_arr(4) = d(1) ! H
+    res_arr(5) = d(2) ! He
+    res_arr(6) = d(3) ! O
+    res_arr(7) = d(4) ! N2
+    res_arr(8) = d(5) ! O2
+    res_arr(9) = d(6) ! N
+
+    res_arr(10) = tinf
 
 end subroutine dtm
