@@ -47,3 +47,12 @@ def test_mcm_output_to_array():
     data_out_ref_array = np.array([*out_array, *in_array])
 
     np.testing.assert_allclose(data_out_array, data_out_ref_array)
+
+
+if __name__ == "__main__":
+
+    test_instantiation()
+
+    test_array_to_mcm_output()
+
+    test_mcm_output_to_array()
