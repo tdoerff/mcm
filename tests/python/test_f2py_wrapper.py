@@ -39,7 +39,14 @@ def test_instantiation_dtm():
     kps = 6. # Kp index
 
     res = dtm(
-        doy, lt, al, lat, lon, (f107, 0.), (f107a, 0.), (kps, 0., 0., 0.))
+        doy,
+        lt,
+        al,
+        lat,
+        lon,
+        (f107, 0.),
+        (f107a, 0.),
+        (kps, 0., 0., 0.))
 
     # Check if all values are returned
     assert np.all(np.isfinite(res))
