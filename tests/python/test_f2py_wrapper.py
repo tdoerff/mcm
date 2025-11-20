@@ -50,3 +50,10 @@ def test_instantiation_dtm():
 
     # Check if all values are returned
     assert np.all(np.isfinite(res))
+
+
+if __name__ == "__main__":
+
+    test_instantiation_mcm()
+
+    test_instantiation_dtm()
