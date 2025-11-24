@@ -20,6 +20,7 @@ netcdff_lib = dependency('netcdf', language: 'fortran')
 
 # Step into subdirectories where the build happens.
 subdir('src')
+subdir('examples/fortran')
 
 install_subdir(
     'data/',
