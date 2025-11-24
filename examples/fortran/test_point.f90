@@ -35,6 +35,9 @@ program point
     data_um = trim(cwd)//"/data/um/"
     data_dtm = trim(cwd)//"/data/"
 
+    print *, data_um
+    print *, data_dtm
+
     ! Initialise/load the model
     call init_mcm(data_um, data_dtm)
 

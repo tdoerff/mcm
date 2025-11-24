@@ -53,7 +53,9 @@ subroutine mcm(day_of_year, local_time, altitude, latitude, longitude, f107, f10
 end subroutine mcm
 
 
-subroutine dtm(doy, loct, alti, lati, longi, f, fbar, akp, res_arr)
+subroutine dtm(doy, loct, alti, lati, longi, f, fbar, akp, data_dtm, res_arr)
+
+    use m_dtm, only : DTM2020_DATA_FILENAME, init_dtm2020
 
     implicit none
 
@@ -61,6 +63,8 @@ subroutine dtm(doy, loct, alti, lati, longi, f, fbar, akp, res_arr)
     real(8), intent(in) :: lati, alti, doy, loct, longi
     real(8), dimension(2), intent(in) :: f, fbar
     real(8), dimension(4), intent(in) :: akp
+
+    character(len=255), intent(in) :: data_dtm
 
     ! output
     real(8), dimension(10), intent(out) :: res_arr  ! output array
@@ -72,6 +76,8 @@ subroutine dtm(doy, loct, alti, lati, longi, f, fbar, akp, res_arr)
     real(8), parameter :: PI = acos(-1d0)
     real(8), parameter :: DEG2RAD = PI/180d0
     real(8), parameter :: HOUR2RAD = PI/12d0
+
+    call init_dtm2020(trim(data_dtm)//trim(DTM2020_DATA_FILENAME))
 
     call dtm3(                  &
         real(doy),              &

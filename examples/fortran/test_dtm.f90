@@ -1,8 +1,15 @@
 program test_dtm
 
-    use m_dtm, only : get_dtm2020
+    use m_dtm, only : get_dtm2020, init_dtm2020, DTM2020_DATA_FILENAME
 
     implicit none
+
+    character (len=255) :: cwd
+
+    ! Path where to find the UM netCDF files in folders 2002, 2004, 2008-2009
+    character(len=255) :: data_um
+    ! Path where to find the "DTM_2020_F107_Kp.dat" file
+    character(len=255) :: data_dtm
 
     real(8), parameter :: altitude = 150.0d0   ! km
     real(8), parameter :: day_of_year = 53.0d0 ! days
@@ -27,6 +34,10 @@ program test_dtm
     real(8), parameter :: DEG2RAD = PI/180d0
     real(8), parameter :: HOUR2RAD = PI/12d0
 
+    call getcwd(cwd)
+
+    data_dtm = trim(cwd)//"/data/"
+
     call dtm(        &
         day_of_year, &
         local_time,  &
@@ -36,6 +47,7 @@ program test_dtm
         f107_arr,    &
         f107m_arr,   &
         akp,         &
+        data_dtm,    &
         res_arr)
 
     write (*,*) res_arr
