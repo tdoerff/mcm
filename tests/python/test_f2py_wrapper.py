@@ -3,7 +3,7 @@ import numpy as np
 import os
 
 import swami
-from swami.mcm_wrapper import mcm, dtm
+from swami.mcm_wrapper import dtm, init_dtm, init_mcm, mcm
 
 
 def test_instantiation_mcm():
@@ -20,8 +20,10 @@ def test_instantiation_mcm():
     data_um = os.path.dirname(swami.__file__) + "/data/um/"
     data_dtm = os.path.dirname(swami.__file__) + "/data/"
 
+    init_mcm(data_um, data_dtm)
+
     res = mcm(
-        doy, lt, al, lat, lon, f107, f107a, kps, data_um, data_dtm)
+        doy, lt, al, lat, lon, f107, f107a, kps, True, True)
 
     # Check if all values are returned
     assert np.all(np.isfinite(res))
@@ -37,6 +39,10 @@ def test_instantiation_dtm():
     f107 = 150. # F10.7 index
     f107a = 150. # F10.7 index (averaged)
     kps = 6. # Kp index
+
+    data_dtm = os.path.dirname(swami.__file__) + "/data/"
+
+    init_dtm(data_dtm)
 
     res = dtm(
         doy,
