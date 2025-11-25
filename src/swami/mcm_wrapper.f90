@@ -20,8 +20,8 @@ subroutine mcm(day_of_year, local_time, altitude, latitude, longitude, f107, f10
 
     type(t_mcm_out) :: res_mcm
 
-    logical :: b_get_unc = .false.
-    logical :: b_get_winds = .false.
+    logical :: b_get_unc = .True.
+    logical :: b_get_winds = .True.
 
     if (present(get_unc)) b_get_unc = get_unc
     if (present(get_winds)) b_get_winds = get_winds
