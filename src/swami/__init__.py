@@ -17,7 +17,7 @@ import os
 from pathlib import Path
 from typing import NamedTuple
 
-from swami.mcm_wrapper import mcm
+from swami.mcm_wrapper import mcm, init_mcm
 
 __version__ = "swami-1.0.rc"
 
@@ -82,6 +82,14 @@ class MCM:
         if path_to_data is not None:
             self.path_to_data = Path(path_to_data)
 
+        # Sanitize paths
+        data_dtm = str(self.path_to_data)
+        data_dtm = data_dtm + "/" if data_dtm[-1] != "/" else data_dtm
+        data_um = str(os.path.join(self.path_to_data, "um"))
+        data_um = data_um + "/" if data_um[-1] != "/" else data_um
+
+        init_mcm(data_um, data_dtm)
+
     @staticmethod
     def array_to_mcm_output(input: np.ndarray, output: np.ndarray) -> MCMOutput:
 
@@ -134,12 +142,6 @@ class MCM:
             MCMOutput: NamedTuple with the results
         """
 
-        # Sanitize paths
-        data_dtm = str(self.path_to_data)
-        data_dtm = data_dtm + "/" if data_dtm[-1] != "/" else data_dtm
-        data_um = str(os.path.join(self.path_to_data, "um"))
-        data_um = data_um + "/" if data_um[-1] != "/" else data_um
-
         out = mcm(
             day_of_year,
             local_time,
@@ -149,8 +151,6 @@ class MCM:
             f107,
             f107m,
             (kp1, kp2),
-            data_um,
-            data_dtm,
             get_uncertainty,
             get_winds)
 
