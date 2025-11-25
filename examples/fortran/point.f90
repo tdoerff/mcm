@@ -1,8 +1,8 @@
 program point
 
-    use m_um
-    use m_dtm
-    use m_mcm
+    use m_um, only : get_um_dens, get_um_dens_standard_deviation, get_um_temp, get_um_temp_standard_deviation
+    use m_dtm, only : get_dtm2020, get_dtm2020_dens_uncertainty
+    use m_mcm only : get_mcm_dens, get_mcm_temp
 
     implicit none
 

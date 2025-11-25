@@ -1,4 +1,4 @@
-subroutine mcm(day_of_year, local_time, altitude, latitude, longitude, f107, f107m, kps, data_um, data_dtm, res_arr)
+subroutine mcm(day_of_year, local_time, altitude, latitude, longitude, f107, f107m, kps, res_arr)
 
     use m_mcm, only: get_mcm, init_mcm, t_mcm_out
 
@@ -12,16 +12,10 @@ subroutine mcm(day_of_year, local_time, altitude, latitude, longitude, f107, f10
     real(8), intent(in) :: f107         ! F10.7 index
     real(8), intent(in) :: f107m        ! F10.7 index (average)
     real(8), intent(in) :: kps(2)       ! Kp indexes, 3h delayed, and 24h mean
-    character(len=4096), intent(in) :: data_um ! Path where to find the UM netCDF files in folders 2002, 2004, 2008-2009
-    character(len=4096), intent(in) :: data_dtm ! Path where to find the "DTM_2020_F107_Kp.dat" file
 
     real(8), dimension(17), intent(out) :: res_arr  ! output array
 
     type(t_mcm_out) :: res_mcm
-
-
-    ! Initialise/load the model
-    call init_mcm(trim(data_um), trim(data_dtm))
 
     ! Call MCM
     call get_mcm(mcm_out=res_mcm, &
@@ -53,9 +47,20 @@ subroutine mcm(day_of_year, local_time, altitude, latitude, longitude, f107, f10
 end subroutine mcm
 
 
-subroutine dtm(doy, loct, alti, lati, longi, f, fbar, akp, data_dtm, res_arr)
+subroutine init_mcm(data_um, data_dtm)
 
-    use m_dtm, only : DTM2020_DATA_FILENAME, init_dtm2020
+    use m_mcm, only : init_mcm0 => init_mcm
+
+    implicit none
+    character(*), intent(in) :: data_um     ! Path to UM files
+    character(*), intent(in) :: data_dtm    ! Path directory where to find DTM2020 data file
+
+    call init_mcm0(data_um, data_dtm)
+
+end subroutine init_mcm
+
+
+subroutine dtm(doy, loct, alti, lati, longi, f, fbar, akp, res_arr)
 
     implicit none
 
@@ -63,8 +68,6 @@ subroutine dtm(doy, loct, alti, lati, longi, f, fbar, akp, data_dtm, res_arr)
     real(8), intent(in) :: lati, alti, doy, loct, longi
     real(8), dimension(2), intent(in) :: f, fbar
     real(8), dimension(4), intent(in) :: akp
-
-    character(len=255), intent(in) :: data_dtm
 
     ! output
     real(8), dimension(10), intent(out) :: res_arr  ! output array
@@ -76,8 +79,6 @@ subroutine dtm(doy, loct, alti, lati, longi, f, fbar, akp, data_dtm, res_arr)
     real(8), parameter :: PI = acos(-1d0)
     real(8), parameter :: DEG2RAD = PI/180d0
     real(8), parameter :: HOUR2RAD = PI/12d0
-
-    call init_dtm2020(trim(data_dtm)//trim(DTM2020_DATA_FILENAME))
 
     call dtm3(                  &
         real(doy),              &
@@ -110,3 +111,22 @@ subroutine dtm(doy, loct, alti, lati, longi, f, fbar, akp, data_dtm, res_arr)
     res_arr(10) = tinf
 
 end subroutine dtm
+
+
+subroutine init_dtm(data_dtm)
+
+    use m_dtm, only : init_dtm2020, DTM2020_DATA_FILENAME
+
+    implicit none
+
+    character(*), intent(in) :: data_dtm
+
+    character(len=4096) :: data_file
+
+    data_file = trim(data_dtm)//trim(DTM2020_DATA_FILENAME)
+
+    write (*,*) trim(data_file)
+
+    call init_dtm2020(trim(data_file))
+
+end subroutine init_dtm

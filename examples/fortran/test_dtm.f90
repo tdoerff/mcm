@@ -1,6 +1,6 @@
 program test_dtm
 
-    use m_dtm, only : get_dtm2020, init_dtm2020, DTM2020_DATA_FILENAME
+    use m_dtm, only : get_dtm2020, DTM2020_DATA_FILENAME
 
     implicit none
 
@@ -38,6 +38,8 @@ program test_dtm
 
     data_dtm = trim(cwd)//"/data/"
 
+    call init_dtm(data_dtm)
+
     call dtm(        &
         day_of_year, &
         local_time,  &
@@ -47,7 +49,6 @@ program test_dtm
         f107_arr,    &
         f107m_arr,   &
         akp,         &
-        data_dtm,    &
         res_arr)
 
     write (*,*) res_arr
