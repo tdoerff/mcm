@@ -1,8 +1,8 @@
 program point
 
-    use m_um
-    use m_dtm
-    use m_mcm
+    use m_um, only : get_um_dens, get_um_dens_standard_deviation, get_um_temp, get_um_temp_standard_deviation
+    use m_dtm, only : get_dtm2020, get_dtm2020_dens_uncertainty
+    use m_mcm, only : get_mcm_dens, get_mcm_temp
 
     implicit none
 
@@ -25,6 +25,8 @@ program point
     real(8) :: temp, dens, std_dens, std_temp, unc
 
     real :: sd(6), swmm, stinf, stemp, sdens
+
+    real(8), dimension(17) :: res_arr
 
     real(8) :: f107_arr(2) = [f107, 0d0]
     real(8) :: f107m_arr(2) = [f107m, 0d0]
@@ -60,5 +62,9 @@ program point
               temp, stinf, dens, sd, swmm)
 
     print *, temp, dens
+
+    call mcm(day_of_year, local_time, altitude, latitude, longitude, f107, f107m, kps, res_arr)
+
+    write (*,*) res_arr
 
 end program point
