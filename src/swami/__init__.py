@@ -150,7 +150,9 @@ class MCM:
             f107m,
             (kp1, kp2),
             data_um,
-            data_dtm)
+            data_dtm,
+            get_uncertainty,
+            get_winds)
 
         input = np.array([
             altitude, day_of_year, local_time, latitude, longitude, f107, f107m, kp1 ,kp2])

@@ -1,4 +1,4 @@
-subroutine mcm(day_of_year, local_time, altitude, latitude, longitude, f107, f107m, kps, res_arr)
+subroutine mcm(day_of_year, local_time, altitude, latitude, longitude, f107, f107m, kps, res_arr, get_unc, get_winds)
 
     use m_mcm, only: get_mcm, init_mcm, t_mcm_out
 
@@ -15,14 +15,23 @@ subroutine mcm(day_of_year, local_time, altitude, latitude, longitude, f107, f10
 
     real(8), dimension(17), intent(out) :: res_arr  ! output array
 
+    logical, intent(in), optional :: get_unc
+    logical, intent(in), optional :: get_winds
+
     type(t_mcm_out) :: res_mcm
+
+    logical :: b_get_unc = .false.
+    logical :: b_get_winds = .false.
+
+    if (present(get_unc)) b_get_unc = get_unc
+    if (present(get_winds)) b_get_winds = get_winds
 
     ! Call MCM
     call get_mcm(mcm_out=res_mcm, &
                  alti=altitude, lati=latitude, longi=longitude, &
                  loct=local_time, doy=day_of_year, &
                  f107=f107, f107m=f107m, kps=kps, &
-                 get_unc=.true., get_winds=.true.)
+                 get_unc=b_get_unc, get_winds=b_get_winds)
 
     ! Convert everything to Python-readable array
     res_arr(1) = res_mcm%dens
