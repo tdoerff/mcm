@@ -134,8 +134,6 @@ subroutine init_dtm(data_dtm)
 
     data_file = trim(data_dtm)//trim(DTM2020_DATA_FILENAME)
 
-    write (*,*) trim(data_file)
-
     call init_dtm2020(trim(data_file))
 
 end subroutine init_dtm
